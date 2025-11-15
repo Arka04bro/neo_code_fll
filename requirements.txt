@@ -1,0 +1,22 @@
+# FPV Drone Archaeological Detection System
+# Requirements file
+
+# Core dependencies
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+pillow>=10.0.0
+
+# Drone integration
+pymavlink>=2.4.0
+dronekit>=2.9.2
+
+# GPS and geospatial
+geopy>=2.4.0
+
+# Utilities
+python-dateutil>=2.8.0
+
+# Optional: GPU acceleration
+# torch>=2.0.0
+# torchvision>=0.15.0
