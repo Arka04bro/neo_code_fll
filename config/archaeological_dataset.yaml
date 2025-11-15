@@ -1,0 +1,42 @@
+# YOLOv8 Dataset Configuration for Archaeological Object Detection
+# Конфигурация датасета для детекции археологических объектов
+
+# Пути к данным (относительно этого файла или абсолютные)
+path: /home/ubuntu/yolov8_finetuning/dataset  # корневая директория датасета
+train: images/train  # путь к обучающим изображениям (относительно path)
+val: images/val      # путь к валидационным изображениям
+test: images/test    # путь к тестовым изображениям (опционально)
+
+# Классы объектов (порядок важен - индексы используются в аннотациях)
+names:
+  0: ruins              # Руины - остатки разрушенных построек
+  1: mound              # Курганы - погребальные насыпи
+  2: foundation         # Фундаменты - основания зданий
+  3: stone_structure    # Каменные структуры - стены, ограды
+  4: geoglyph           # Геоглифы - наземные рисунки
+  5: earthwork          # Земляные сооружения - валы, рвы
+
+# Количество классов
+nc: 6
+
+# Дополнительная информация о датасете
+dataset_info:
+  description: "Archaeological objects detection from FPV drone aerial imagery"
+  version: "1.0"
+  date_created: "2025-11-12"
+  
+  # Рекомендуемые параметры обучения
+  recommended_training:
+    epochs: 100
+    batch_size: 16
+    image_size: 640
+    patience: 20  # early stopping
+    
+  # Статистика классов (обновляется после подготовки датасета)
+  class_distribution:
+    ruins: 0
+    mound: 0
+    foundation: 0
+    stone_structure: 0
+    geoglyph: 0
+    earthwork: 0

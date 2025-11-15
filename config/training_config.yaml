@@ -1,0 +1,89 @@
+# YOLOv8 Training Configuration for Archaeological Detection
+# Конфигурация обучения модели для археологических объектов
+
+# Основные параметры обучения
+model: yolov8n.pt  # Предобученная модель (yolov8n/s/m/l/x)
+data: configs/archaeological_dataset.yaml  # Путь к конфигу датасета
+epochs: 100  # Количество эпох обучения
+batch: 16  # Размер батча (уменьшить при нехватке памяти)
+imgsz: 640  # Размер входных изображений
+
+# Оптимизация
+optimizer: AdamW  # Оптимизатор (SGD, Adam, AdamW)
+lr0: 0.001  # Начальная скорость обучения
+lrf: 0.01  # Финальная скорость обучения (lr0 * lrf)
+momentum: 0.937  # Momentum для SGD
+weight_decay: 0.0005  # L2 регуляризация
+
+# Scheduler
+cos_lr: True  # Использовать cosine learning rate scheduler
+
+# Early stopping
+patience: 20  # Остановка если нет улучшения за N эпох
+
+# Аугментация данных
+augment: True  # Включить аугментацию
+hsv_h: 0.015  # Изменение оттенка (0.0-1.0)
+hsv_s: 0.7  # Изменение насыщенности (0.0-1.0)
+hsv_v: 0.4  # Изменение яркости (0.0-1.0)
+degrees: 10.0  # Поворот изображения (+/- deg)
+translate: 0.1  # Сдвиг изображения (+/- fraction)
+scale: 0.5  # Масштабирование изображения (+/- gain)
+shear: 0.0  # Сдвиг изображения (+/- deg)
+perspective: 0.0  # Перспективное искажение (+/- fraction)
+flipud: 0.0  # Вертикальное отражение (probability)
+fliplr: 0.5  # Горизонтальное отражение (probability)
+mosaic: 1.0  # Мозаика (probability)
+mixup: 0.0  # MixUp аугментация (probability)
+copy_paste: 0.0  # Copy-paste аугментация (probability)
+
+# Параметры модели
+dropout: 0.0  # Dropout rate
+box: 7.5  # Box loss gain
+cls: 0.5  # Class loss gain
+dfl: 1.5  # Distribution Focal Loss gain
+
+# Вычислительные ресурсы
+device: 0  # GPU device (0, 1, 2, ...) или 'cpu'
+workers: 8  # Количество потоков для загрузки данных
+project: results  # Директория для сохранения результатов
+name: archaeological_detection  # Название эксперимента
+exist_ok: True  # Перезаписывать существующие результаты
+
+# Сохранение и логирование
+save: True  # Сохранять чекпоинты
+save_period: -1  # Сохранять каждые N эпох (-1 = только лучшая и последняя)
+plots: True  # Сохранять графики обучения
+verbose: True  # Подробный вывод
+
+# Валидация
+val: True  # Валидация во время обучения
+conf: 0.001  # Порог уверенности для валидации
+iou: 0.6  # IoU порог для NMS
+max_det: 300  # Максимум детекций на изображение
+
+# Дополнительные параметры
+cache: False  # Кешировать изображения в RAM (True/False/'disk')
+rect: False  # Прямоугольные батчи (для ускорения)
+resume: False  # Продолжить обучение с последнего чекпоинта
+amp: True  # Automatic Mixed Precision (для ускорения на GPU)
+fraction: 1.0  # Использовать только часть датасета (для тестов)
+profile: False  # Профилирование скорости обучения
+freeze: None  # Заморозить слои (список индексов или None)
+
+# Специфичные настройки для археологических объектов
+archaeological_settings:
+  # Классы с малым количеством примеров (увеличить аугментацию)
+  rare_classes: [4, 5]  # geoglyph, earthwork
+  
+  # Минимальный размер объекта для детекции (в пикселях)
+  min_object_size: 20
+  
+  # Использовать multi-scale training для объектов разного размера
+  multi_scale: True
+  
+  # Специальная аугментация для аэрофотосъемки
+  aerial_augmentation:
+    altitude_variation: True  # Симуляция разной высоты съемки
+    shadow_augmentation: True  # Добавление теней
+    weather_effects: False  # Эффекты погоды (туман, дымка)
